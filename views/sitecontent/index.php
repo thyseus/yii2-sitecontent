@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'views',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'urlCreator' => function ($action, $model, $key, $index, $this) {
+                'urlCreator' => function ($action, $model, $key, $index) {
                     return Url::to(['sitecontent/' . $action, 'id' => $model->slug, 'language' => $model->language]);
                 }
             ],
