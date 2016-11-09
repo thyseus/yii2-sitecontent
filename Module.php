@@ -24,6 +24,16 @@ class Module extends \yii\base\Module
      */
     public $userModelClass = 'app\models\User';
 
+    /** @var array The rules to be used in URL management. */
+    public $urlRules = [
+        'sitecontent/update/<language>/<id>' => 'sitecontent/sitecontent/update',
+        'sitecontent/delete/<language>/<id>' => 'sitecontent/sitecontent/delete',
+        'sitecontent/<language>/<id>' => 'sitecontent/sitecontent/view',
+        'sitecontent/index' => 'sitecontent/sitecontent/index',
+        'sitecontent/create' => 'sitecontent/sitecontent/create',
+        'sitecontent/<id>' => 'sitecontent/sitecontent/view',
+    ];
+
     /**
      * @inheritdoc
      */

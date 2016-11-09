@@ -85,7 +85,7 @@ class Sitecontent extends ActiveRecord
     {
         return [
             [['status', 'title'], 'required'],
-            [['status', 'views', 'parent'], 'integer'],
+            [['status', 'views', 'parent', 'position'], 'integer'],
             [['content'], 'string'],
             [['language'], 'string', 'max' => 5],
             [['title'], 'string', 'max' => 255],

@@ -27,7 +27,8 @@ Add following lines to your main configuration file:
 Use the following routes to access the sitecontent module:
 
 * index: https://your-domain/sitecontent/sitecontent/index
-* view: https://your-domain/sitecontent/sitecontent/view/slug=<slug>/lang=<lang>
+* view: https://your-domain/sitecontent/sitecontent/view?id=<slug>?lang=<lang>
+* view: https://your-domain/sitecontent/sitecontent/view?id=<slug>
 
 ## License
 
