@@ -7,6 +7,7 @@ use thyseus\sitecontent\models\Sitecontent;
 use thyseus\sitecontent\models\SitecontentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
@@ -20,6 +21,22 @@ class SitecontentController extends Controller
     public function behaviors()
     {
         return [
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'create', 'update', 'delete'],
+                        'roles' => ['admin'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['?'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -52,12 +69,12 @@ class SitecontentController extends Controller
      */
     public function actionView($id, $language = null)
     {
-        if(!$language)
+        if (!$language)
             $language = Yii::$app->language;
 
         $model = $this->findModel($id, $language);
 
-        if($model->status != Sitecontent::STATUS_PUBLIC)
+        if ($model->status != Sitecontent::STATUS_PUBLIC)
             throw new NotFoundHttpException();
 
         $model->updateCounters(['views' => 1]);
