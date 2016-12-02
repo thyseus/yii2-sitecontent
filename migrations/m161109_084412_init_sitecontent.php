@@ -30,6 +30,17 @@ class m161109_084412_init_sitecontent extends Migration
             'updated_at'           => Schema::TYPE_DATETIME,
             'views'                => Schema::TYPE_INTEGER,
         ], $tableOptions);
+
+        $this->insert('{{%sitecontent}}', [
+            'id' => 1,
+            'parent' => null,
+            'title' => 'Root Node',
+            'slug' => 'root-node',
+            'status' => -1,
+            'views' => 0,
+            'language' => 'en-US',
+            'created_at' => date('Y-m-d G:i:s'),
+        ]);
     }
 
     public function down()
