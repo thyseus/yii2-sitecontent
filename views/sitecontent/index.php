@@ -54,14 +54,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'created_by',
                 'filter' => false,
                 'value' => function ($model) {
-                    return $model->createdBy->username;
+                    return $model->createdBy ? $model->createdBy->username : null;
                 },
             ],
             [
                 'attribute' => 'updated_by',
                 'filter' => false,
                 'value' => function ($model) {
-                    return $model->updatedBy->username;
+                    return $model->updatedBy ? $model->updatedBy->username : null;
                 },
             ],
             ['attribute' => 'created_at', 'filter' => false],
