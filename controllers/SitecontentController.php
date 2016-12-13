@@ -95,6 +95,9 @@ class SitecontentController extends Controller
 
         $model->views = 0;
 
+        if(!$model->language && isset(Yii::$app->language))
+            $model->language = Yii::$app->language;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
