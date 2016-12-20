@@ -1,10 +1,10 @@
 <?php
 
+use marqu3s\summernote\Summernote;
 use thyseus\sitecontent\models\Sitecontent;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Sitecontent */
@@ -33,8 +33,16 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'status')->dropDownList(Sitecontent::getStatusOptions()); ?>
 
         </div>
+
         <div class="col-md-8">
-            <?= $form->field($model, 'content')->textarea(['rows' => 20]) ?>
+            <?php
+            $summernoteOptions = Yii::$app->getModule('sitecontent')->summernoteOptions;
+
+            if ($summernoteOptions === false)
+                echo $form->field($model, 'content')->textArea(['rows' => 20]);
+            else
+                echo $form->field($model, 'content')->widget(Summernote::className(), $summernoteOptions);
+            ?>
         </div>
     </div>
 

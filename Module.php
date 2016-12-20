@@ -24,6 +24,13 @@ class Module extends \yii\base\Module
      */
     public $userModelClass = 'app\models\User';
 
+    /**
+     * @var array|false Options for the Summernote WYSIWYG editor plugin. Set to false to disable the plugin.
+     */
+    public $summernoteOptions = [
+        'clientOptions' => [],
+    ];
+
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
         'sitecontent/update/<language>/<id>' => 'sitecontent/sitecontent/update',
