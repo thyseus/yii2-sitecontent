@@ -32,6 +32,15 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'status')->dropDownList(Sitecontent::getStatusOptions()); ?>
 
+            <?= $form->field($model, 'created_by')->textInput(['disabled' => true]) ?>
+
+            <?= $form->field($model, 'updated_by')->textInput(['disabled' => true]) ?>
+
+            <?= $form->field($model, 'created_at')->textInput(['disabled' => true]) ?>
+
+            <?= $form->field($model, 'updated_at')->textInput(['disabled' => true]) ?>
+
+            <?= $form->field($model, 'views')->textInput(['disabled' => true]) ?>
         </div>
 
         <div class="col-md-8">

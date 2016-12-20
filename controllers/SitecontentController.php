@@ -2,13 +2,14 @@
 
 namespace thyseus\sitecontent\controllers;
 
-use Yii;
 use thyseus\sitecontent\models\Sitecontent;
 use thyseus\sitecontent\models\SitecontentSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 /**
  * SitecontentController implements the CRUD actions for Sitecontent model.
@@ -85,6 +86,23 @@ class SitecontentController extends Controller
     }
 
     /**
+     * Finds the Sitecontent model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $id
+     * @param string $language
+     * @return Sitecontent the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id, $language)
+    {
+        if (($model = Sitecontent::findOne(['slug' => $id, 'language' => $language])) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
      * Creates a new Sitecontent model.
      * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
@@ -95,7 +113,7 @@ class SitecontentController extends Controller
 
         $model->views = 0;
 
-        if(!$model->language && isset(Yii::$app->language))
+        if (!$model->language && isset(Yii::$app->language))
             $model->language = Yii::$app->language;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -139,22 +157,5 @@ class SitecontentController extends Controller
         $this->findModel($id, $language)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Sitecontent model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @param string $language
-     * @return Sitecontent the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id, $language)
-    {
-        if (($model = Sitecontent::findOne(['slug' => $id, 'language' => $language])) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

@@ -3,9 +3,8 @@
 namespace thyseus\sitecontent\models;
 
 use Yii;
-
-use yii\behaviors\SluggableBehavior;
 use yii\behaviors\BlameableBehavior;
+use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
@@ -36,14 +35,6 @@ class Sitecontent extends ActiveRecord
     const STATUS_RESTRICTED = 3;
     const STATUS_MOVED = 4;
 
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'sitecontent';
-    }
-
     public static function getStatusOptions()
     {
         return [
@@ -58,7 +49,25 @@ class Sitecontent extends ActiveRecord
 
     public static function getLanguages()
     {
-        return (new \yii\db\Query())->select(['language'])->from(self::tableName())->groupBy('language')->indexBy('language')->all();
+        $languages = [];
+
+        foreach ((new \yii\db\Query())
+                     ->select(['language'])
+                     ->from(self::tableName())
+                     ->groupBy('language')
+                     ->indexBy('language')
+                     ->all() as $lang)
+            $languages[$lang['language']] = $lang['language'];
+
+        return $languages;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'sitecontent';
     }
 
     public function behaviors()

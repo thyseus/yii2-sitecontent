@@ -1,12 +1,12 @@
 <?php
 
+use karakum\grid\TreeGridView;
 use thyseus\sitecontent\models\Sitecontent;
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
-
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SitecontentSearch */
@@ -23,22 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::begin(); ?>
 
-    <?= GridView::widget([
+    <?= TreeGridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'parentColumnName' => 'parent',
         'columns' => [
-            'id',
             [
-                'attribute' => 'parent',
-                'filter' => ArrayHelper::map(Sitecontent::find()->all(), 'id', 'title'),
-                'value' => function ($model) {
-                    if ($model->parentSitecontent)
-                        return $model->parentSitecontent->title;
-                    else
-                        return '';
-                }
+                'format' => 'raw',
+                'attribute' => 'title',
+                'value' => function ($data) {
+                    return Html::a($data->title, ['update', 'id' => $data->slug, 'language' => $data->language], ['data-pjax' => 0]);
+                },
             ],
-            'title',
             [
                 'attribute' => 'language',
                 'filter' => Sitecontent::getLanguages(),
@@ -50,23 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Sitecontent::getStatusOptions()[$model->status];
                 },
             ],
-            [
-                'attribute' => 'created_by',
-                'filter' => false,
-                'value' => function ($model) {
-                    return $model->createdBy ? $model->createdBy->username : null;
-                },
-            ],
-            [
-                'attribute' => 'updated_by',
-                'filter' => false,
-                'value' => function ($model) {
-                    return $model->updatedBy ? $model->updatedBy->username : null;
-                },
-            ],
-            ['attribute' => 'created_at', 'filter' => false],
-            ['attribute' => 'updated_at', 'filter' => false],
-            'views',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'urlCreator' => function ($action, $model, $key, $index) {
