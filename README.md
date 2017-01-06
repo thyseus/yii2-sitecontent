@@ -23,6 +23,7 @@ Add following lines to your main configuration file:
 ```
 
 By default only users that apply to $user->can('admin') are allowed to access the sitecontent administation.
+You can modify this with the 'accessCallback' configuration option.
 
 ## Routes
 

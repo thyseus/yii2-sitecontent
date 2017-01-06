@@ -31,6 +31,12 @@ class Module extends \yii\base\Module
         'clientOptions' => [],
     ];
 
+    /**
+     * @var callback Rule to determine which users are allowed to access the content management system.
+     * Defaults to Yii::$app->user->can('admin')
+     */
+    public $accessCallback = null;
+
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
         'sitecontent/update/<language>/<id>' => 'sitecontent/sitecontent/update',
@@ -46,6 +52,11 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
+        if(!$this->accessCallback)
+            $this->accessCallback = function() {
+                return Yii::$app->user->can('admin');
+            };
+
         if (!isset(Yii::$app->get('i18n')->translations['sitecontent*'])) {
             Yii::$app->get('i18n')->translations['sitecontent*'] = [
                 'class' => PhpMessageSource::className(),

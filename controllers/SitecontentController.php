@@ -29,7 +29,7 @@ class SitecontentController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'create', 'update', 'delete'],
-                        'roles' => ['admin'],
+                        'matchCallback' => Yii::$app->getModule('sitecontent')->accessCallback,
                     ],
                     [
                         'allow' => true,
