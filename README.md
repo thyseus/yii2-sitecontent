@@ -1,6 +1,6 @@
 # Yii2-sitecontent
 
-Tiny Sitecontent module for the Yii framework. Contains only one table where everything is stored.
+Very tiny and simple Sitecontent module for the Yii framework. Contains only one table where the sitecontent is stored.
 
 ## Installation
 
