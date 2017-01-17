@@ -28,7 +28,7 @@ class SitecontentController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'create', 'update', 'delete'],
+                        'actions' => ['index', 'create', 'update', 'delete', 'view'],
                         'matchCallback' => Yii::$app->getModule('sitecontent')->accessCallback,
                     ],
                     [

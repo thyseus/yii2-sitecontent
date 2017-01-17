@@ -1,5 +1,6 @@
 <?php
 
+use thyseus\sitecontent\models\Sitecontent;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -7,7 +8,8 @@ use yii\helpers\Html;
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('sitecontent', 'Sitecontent'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->slug, 'language' => $model->language]];
+if($model->status === Sitecontent::STATUS_PUBLIC)
+    $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->slug, 'language' => $model->language]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="sitecontent-update">

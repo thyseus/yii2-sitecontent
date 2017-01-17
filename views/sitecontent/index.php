@@ -2,8 +2,6 @@
 
 use karakum\grid\TreeGridView;
 use thyseus\sitecontent\models\Sitecontent;
-use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
@@ -48,6 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'visibleButtons' => [
+                    'view' => function ($model, $key, $index) {
+                        return $model->status === Sitecontent::STATUS_PUBLIC;
+                    }
+                ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                     return Url::to(['sitecontent/' . $action, 'id' => $model->slug, 'language' => $model->language]);
                 }
