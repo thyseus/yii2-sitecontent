@@ -70,6 +70,17 @@ class Sitecontent extends ActiveRecord
         return 'sitecontent';
     }
 
+    /* Retrieve raw content of an sitecontent entry, if available*/
+    public static function getContent($id, $language = null)
+    {
+        $model = Sitecontent::findOne(['slug' => $id, 'language' => $language ? $language : Yii::$app->language]);
+
+        if ($model)
+            return $model->content;
+        else
+            return false;
+    }
+
     public function behaviors()
     {
         return [
