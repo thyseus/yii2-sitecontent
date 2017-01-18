@@ -22,6 +22,10 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="col-md-4">
 
+            <?php if(!$model->isNewRecord)
+                echo $form->field($model, 'slug')->textInput(['maxlength' => true])
+            ?>
+
             <?= $form->field($model, 'parent')->dropDownList(
                 ArrayHelper::map(Sitecontent::find()->all(), 'id', 'title'),
                 ['prompt' => '-']); ?>

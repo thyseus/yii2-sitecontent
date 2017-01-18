@@ -90,6 +90,7 @@ class Sitecontent extends ActiveRecord
             [
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
+                'immutable' => true,
             ],
             [
                 'class' => TimestampBehavior::className(),
@@ -108,7 +109,7 @@ class Sitecontent extends ActiveRecord
             [['status', 'views', 'parent', 'position'], 'integer'],
             [['content'], 'string'],
             [['language'], 'string', 'max' => 5],
-            [['title'], 'string', 'max' => 255],
+            [['title', 'slug'], 'string', 'max' => 255],
         ];
     }
 
