@@ -16,6 +16,7 @@ return [
     'system' => 'System',
     'hidden' => 'Versteckt',
     'draft' => 'Vorlage',
+    'copy' => 'Kopieren',
     'public' => 'Öffentlich',
     'restricted' => 'Eingeschränkt',
     'moved' => 'Verschoben',

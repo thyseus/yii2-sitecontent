@@ -34,7 +34,7 @@ class SitecontentController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['view'],
-                        'roles' => ['?'],
+                        'roles' => ['?', '@'],
                     ],
                 ],
             ],
@@ -107,9 +107,16 @@ class SitecontentController extends Controller
      * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($source_id = null, $source_language = null)
     {
         $model = new Sitecontent();
+
+        if ($source_id && $source_language) {
+            if ($source = Sitecontent::find()->where(['id' => $source_id, 'language' => $source_language])->one())
+                $model->attributes = $source->attributes;
+            else
+                throw new NotFoundHttpException('The source sitecontent could not be found');
+        }
 
         $model->views = 0;
 

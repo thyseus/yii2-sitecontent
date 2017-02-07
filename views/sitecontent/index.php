@@ -46,6 +46,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}{update}{copy}{delete}',
+                'buttons' => [
+                    'copy' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-copy"></span>', [
+                                '//sitecontent/sitecontent/create', 'source_id' => $model->id, 'source_language' => $model->language],
+                            ['title' => Yii::t('sitecontent', 'Copy'), 'data-pjax' => 0]);
+                    },
+
+                ],
                 'visibleButtons' => [
                     'view' => function ($model, $key, $index) {
                         return $model->status === Sitecontent::STATUS_PUBLIC;
