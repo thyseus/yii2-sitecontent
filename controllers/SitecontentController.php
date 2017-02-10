@@ -51,12 +51,13 @@ class SitecontentController extends Controller
      * Lists all Sitecontent models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($tree = true)
     {
         $searchModel = new SitecontentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'tree' => $tree,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

@@ -1,6 +1,7 @@
 <?php
 
 use karakum\grid\TreeGridView;
+use karakum\grid\GridView;
 use thyseus\sitecontent\models\Sitecontent;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -17,14 +18,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p> <?= Html::a(Yii::t('sitecontent', 'Add sitecontent'), ['create'], ['class' => 'btn btn-success']) ?> </p>
+    <p>
+        <?= Html::a(Yii::t('sitecontent', 'Add sitecontent'), ['create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('sitecontent', 'Toggle Tree'), ['index', 'tree' => $tree ? 0 : 1], ['class' => 'btn btn-primary']) ?>
 
-    <?php Pjax::begin(); ?>
+    </p>
 
-    <?= TreeGridView::widget([
+    <?php $grid = $tree ? 'karakum\grid\TreeGridView' : 'karakum\grid\GridView'; ?>
+
+    <?php $widget_options = [
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'parentColumnName' => 'parent',
+        'filterModel' => $tree ? false : $searchModel,
         'columns' => [
             [
                 'format' => 'raw',
@@ -50,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'copy' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-copy"></span>', [
-                                '//sitecontent/sitecontent/create', 'source_id' => $model->id, 'source_language' => $model->language],
+                            '//sitecontent/sitecontent/create', 'source_id' => $model->id, 'source_language' => $model->language],
                             ['title' => Yii::t('sitecontent', 'Copy'), 'data-pjax' => 0]);
                     },
 
@@ -64,6 +68,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Url::to(['sitecontent/' . $action, 'id' => $model->slug, 'language' => $model->language]);
                 }
             ],
-        ],
-    ]); ?>
-    <?php Pjax::end(); ?></div>
+        ]
+    ];
+
+    if($tree)
+        $widget_options['parentColumnName'] = 'parent';
+
+    Pjax::begin();
+    echo $grid::widget($widget_options);
+    Pjax::end(); ?>
+</div>

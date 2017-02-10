@@ -24,4 +24,5 @@ return [
     'Sitecontent' => 'Seiteninhalt',
     'Create Sitecontent' => 'Neuer Seiteninhalt',
     'Add sitecontent' => 'Neuer Seiteninhalt',
+    'Toggle Tree' => 'Baum umschalten',
 ];
