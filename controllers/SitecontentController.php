@@ -98,6 +98,8 @@ class SitecontentController extends Controller
     {
         if (($model = Sitecontent::findOne(['slug' => $id, 'language' => $language])) !== null) {
             return $model;
+        } else if (($model = Sitecontent::findOne(['id' => $id])) !== null) {
+            return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
@@ -121,11 +123,13 @@ class SitecontentController extends Controller
 
         $model->views = 0;
 
+        $model->status = 0;
+
         if (!$model->language && isset(Yii::$app->language))
             $model->language = Yii::$app->language;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -140,7 +144,7 @@ class SitecontentController extends Controller
      * @param string $language
      * @return mixed
      */
-    public function actionUpdate($id, $language)
+    public function actionUpdate($id, $language = null)
     {
         $model = $this->findModel($id, $language);
 

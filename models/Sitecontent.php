@@ -91,6 +91,7 @@ class Sitecontent extends ActiveRecord
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
                 'immutable' => true,
+                'ensureUnique' => true,
             ],
             [
                 'class' => TimestampBehavior::className(),
@@ -107,10 +108,17 @@ class Sitecontent extends ActiveRecord
         return [
             [['status', 'title'], 'required'],
             [['status', 'views', 'parent', 'position'], 'integer'],
-            [['content'], 'string'],
+            [['content', 'meta_title', 'meta_description', 'meta_keywords'], 'string'],
             [['language'], 'string', 'max' => 5],
             [['title', 'slug'], 'string', 'max' => 255],
         ];
+    }
+
+    public function beforeSave($insert) {
+        if ($this->isNewRecord && !$this->meta_title) {
+            $this->meta_title = substr($this->title, 0, 70); // recommended max length
+        }
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -132,6 +140,9 @@ class Sitecontent extends ActiveRecord
             'created_at' => Yii::t('sitecontent', 'created at'),
             'updated_at' => Yii::t('sitecontent', 'last updated at'),
             'views' => Yii::t('sitecontent', 'views'),
+            'meta_title' => Yii::t('sitecontent', 'meta title'),
+            'meta_description' => Yii::t('sitecontent', 'meta description'),
+            'meta_keywords' => Yii::t('sitecontent', 'meta keywords'),
         ];
     }
 
