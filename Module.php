@@ -20,6 +20,11 @@ class Module extends \yii\base\Module
     public $defaultRoute = 'sitecontent\sitecontent\index';
 
     /**
+     * @var string The layout to be used by the view action. Keep null to use the default layout.
+     */
+    public $layout = null;
+
+    /**
      * @var string The class of the User Model inside the application this module is attached to
      */
     public $userModelClass = 'app\models\User';

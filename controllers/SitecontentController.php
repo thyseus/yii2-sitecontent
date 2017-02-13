@@ -74,6 +74,9 @@ class SitecontentController extends Controller
         if (!$language)
             $language = Yii::$app->language;
 
+        if($layout = Yii::$app->getModule('sitecontent')->layout)
+            $this->layout = $layout;
+
         $model = $this->findModel($id, $language);
 
         if ($model->status != Sitecontent::STATUS_PUBLIC)
