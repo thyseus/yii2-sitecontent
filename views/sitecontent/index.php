@@ -48,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Sitecontent::getStatusOptions()[$model->status];
                 },
             ],
+            'views',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view}{update}{copy}{delete}',

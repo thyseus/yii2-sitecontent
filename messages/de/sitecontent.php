@@ -8,6 +8,7 @@ return [
     'last updated at' => 'Zuletzt bearbeitet am',
     'status' => 'Status',
     'content' => 'Inhalt',
+    'continue' => 'Weiter',
     'slug' => 'Slug',
     'language' => 'Sprache',
     'views' => 'Ansichten',
