@@ -17,12 +17,6 @@ if ($model->meta_keywords)
     Yii::$app->view->registerMetaTag(['name' => 'keywords', 'content' => $model->meta_keywords]);
 ?>
 <div class="sitecontent-view">
-
-    <div class="row">
-        <div class="row-lg-12">
-            <h1><?= Html::encode($this->title) ?></h1>
-
-            <?= $model->content; ?>
-        </div>
-    </div>
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?= $model->content; ?> 
 </div>
