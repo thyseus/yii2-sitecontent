@@ -8,6 +8,7 @@ use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\helpers\HtmlPurifier;
 
 /**
  * This is the model class for table "sitecontent".
@@ -118,6 +119,9 @@ class Sitecontent extends ActiveRecord
         if ($this->isNewRecord && !$this->meta_title) {
             $this->meta_title = substr($this->title, 0, 70); // recommended max length
         }
+
+        $this->content = HtmlPurifier::process($this->content);
+
         return parent::beforeSave($insert);
     }
 
