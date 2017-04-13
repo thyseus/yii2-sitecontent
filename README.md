@@ -1,6 +1,7 @@
 # Yii2-sitecontent
 
 Very tiny and simple Sitecontent module for the Yii framework. Contains only one table where the sitecontent is stored.
+Uses Summernote (http://summernote.org/) WYSIWYG Editor.
 
 ## Installation
 
