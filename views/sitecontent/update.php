@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         <div class="row">
             <div class="col-md-4">
                 <?= $form->field($model, 'parent')->dropDownList(
-                    ArrayHelper::map(Sitecontent::find()->all(), 'id', 'title'),
+                    ArrayHelper::map(Sitecontent::find()->where(['!=', 'id', $model->id])->all(), 'id', 'title'),
                     ['prompt' => '-']); ?>
 
                 <?= $form->field($model, 'language')->textInput(['maxlength' => true]) ?>

@@ -115,6 +115,14 @@ class Sitecontent extends ActiveRecord
         ];
     }
 
+    public function beforeValidate() {
+        if ($this->id == $this->parent) {
+            $this->addError('parent', Yii::t('sitecontent', 'Parent id can not be identical to the sitecontent id'));
+        }
+
+        return parent::beforeValidate();
+    }
+
     public function beforeSave($insert) {
         if ($this->isNewRecord && !$this->meta_title) {
             $this->meta_title = substr($this->title, 0, 70); // recommended max length
