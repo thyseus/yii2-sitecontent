@@ -71,10 +71,30 @@ class Sitecontent extends ActiveRecord
         return 'sitecontent';
     }
 
+    /**
+     * @return mixed the next free sitecontent id
+     */
+    public static function nextFreeId()
+    {
+        return Sitecontent::find()->orderBy('id DESC')->one()->id + 1;
+    }
+
     /* Retrieve raw content of an sitecontent entry, if available*/
     public static function getContent($id, $language = null)
     {
         $model = Sitecontent::findOne(['slug' => $id, 'language' => $language ? $language : Yii::$app->language]);
+
+        if (!$model) {
+            $model = Sitecontent::findOne(['id' => $id, 'language' => $language ? $language : Yii::$app->language]);
+        }
+
+        if (!$model) {
+            $model = Sitecontent::findOne(['slug' => $id]);
+        }
+
+        if (!$model) {
+            $model = Sitecontent::findOne(['id' => $id]);
+        }
 
         if ($model)
             return $model->content;
@@ -107,7 +127,7 @@ class Sitecontent extends ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'title'], 'required'],
+            [['id', 'status', 'title'], 'required'],
             [['status', 'views', 'parent', 'position'], 'integer'],
             [['content', 'meta_title', 'meta_description', 'meta_keywords'], 'string'],
             [['language'], 'string', 'max' => 5],

@@ -23,10 +23,14 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         <?php $form = ActiveForm::begin(); ?>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-1">
+                <?= $form->field($model, 'id')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-md-11">
                 <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-4">
                 <?= $form->field($model, 'parent')->dropDownList(

@@ -65,22 +65,32 @@ class SitecontentController extends Controller
 
     /**
      * Displays a single Sitecontent model.
+     * If the sitecontent is available in another language than requested, a redirection to the correct page is
+     * being returned.
      * @param string $id
      * @param string $language
      * @return mixed
      */
     public function actionView($id, $language = null)
     {
-        if (!$language)
+        if (!$language) {
             $language = Yii::$app->language;
+        }
 
-        if($layout = Yii::$app->getModule('sitecontent')->layout)
+        if ($layout = Yii::$app->getModule('sitecontent')->layout) {
             $this->layout = $layout;
+        }
+
 
         $model = $this->findModel($id, $language);
 
-        if ($model->status != Sitecontent::STATUS_PUBLIC)
+        if ($target = $this->redirectionNecessary($model, $id, $language)) {
+            return $this->redirect($target, 301);
+        }
+
+        if ($model->status != Sitecontent::STATUS_PUBLIC) {
             throw new NotFoundHttpException();
+        }
 
         $model->updateCounters(['views' => 1]);
 
@@ -90,18 +100,41 @@ class SitecontentController extends Controller
     }
 
     /**
-     * Finds the Sitecontent model based on its primary key value.
+     * Check if an redirection is necessary for the given sitecontent. If so, return the route to the correct target.
+     * @param $model model to check against
+     * @param $id id to check against
+     * @param $language language to check against
+     * @return array
+     */
+    protected function redirectionNecessary($model, $id, $language)
+    {
+        if ($model->language != $language && $correct_model = Sitecontent::findOne(['id' => $model->id, 'language' => $language])) {
+            return ['//sitecontent/sitecontent/view', 'id' => $correct_model->slug];
+        }
+    }
+
+    /**
+     * Finds the Sitecontent model.
+     * May fall back to a not requested language if slug or id is equivalent.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
      * @param string $language
      * @return Sitecontent the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id, $language)
+    protected function findModel($id, $language = null)
     {
+        if (!$language) {
+            $language = Yii::$app->language;
+        }
+
         if (($model = Sitecontent::findOne(['slug' => $id, 'language' => $language])) !== null) {
             return $model;
+        } else if (($model = Sitecontent::findOne(['id' => $id, 'language' => $language])) !== null) {
+            return $model;
         } else if (($model = Sitecontent::findOne(['id' => $id])) !== null) {
+            return $model;
+        } else if (($model = Sitecontent::findOne(['slug' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -117,15 +150,17 @@ class SitecontentController extends Controller
     {
         $model = new Sitecontent();
 
+        $model->id = Sitecontent::nextFreeId();
+
         if ($source_id && $source_language) {
-            if ($source = Sitecontent::find()->where(['id' => $source_id, 'language' => $source_language])->one())
+            if ($source = Sitecontent::find()->where(['id' => $source_id, 'language' => $source_language])->one()) {
                 $model->attributes = $source->attributes;
-            else
+            } else {
                 throw new NotFoundHttpException('The source sitecontent could not be found');
+            }
         }
 
         $model->views = 0;
-
         $model->status = 0;
 
         if (!$model->language && isset(Yii::$app->language))

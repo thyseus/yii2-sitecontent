@@ -1,7 +1,5 @@
 <?php
 
-use karakum\grid\TreeGridView;
-use karakum\grid\GridView;
 use thyseus\sitecontent\models\Sitecontent;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -30,6 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $tree ? false : $searchModel,
         'columns' => [
+            [
+                'attribute' => 'id',
+                'headerOptions' => ['style' => 'width:50px;'],
+            ],
             [
                 'format' => 'raw',
                 'attribute' => 'title',
@@ -72,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ];
 
-    if($tree)
+    if ($tree)
         $widget_options['parentColumnName'] = 'parent';
 
     Pjax::begin();
