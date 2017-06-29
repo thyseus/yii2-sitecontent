@@ -167,9 +167,9 @@ class SitecontentController extends Controller
             $model->language = Yii::$app->language;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->render('form', [
                 'model' => $model,
             ]);
         }
@@ -189,7 +189,7 @@ class SitecontentController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
+            return $this->render('form', [
                 'model' => $model,
             ]);
         }

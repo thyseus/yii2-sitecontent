@@ -132,6 +132,7 @@ class Sitecontent extends ActiveRecord
             [['content', 'meta_title', 'meta_description', 'meta_keywords'], 'string'],
             [['language'], 'string', 'max' => 5],
             [['title', 'slug'], 'string', 'max' => 255],
+            ['language', 'unique', 'targetAttribute' => ['id', 'language']],
         ];
     }
 
