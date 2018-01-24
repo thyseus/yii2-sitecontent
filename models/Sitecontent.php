@@ -48,6 +48,11 @@ class Sitecontent extends ActiveRecord
         ];
     }
 
+    public static function getParentsGrouped()
+    {
+        return Sitecontent::find()->where('parent is NULL')->all();
+    }
+
     public static function getLanguages()
     {
         $languages = [];

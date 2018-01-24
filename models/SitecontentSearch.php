@@ -47,19 +47,12 @@ class SitecontentSearch extends Sitecontent
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => false,
         ]);
 
         $this->load($params);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
-
         // grid filtering conditions
-        $query->andFilterWhere([
+        $query->filterWhere([
             'id' => $this->id,
             'parent' => $this->parent,
             'created_by' => $this->created_by,
@@ -69,10 +62,10 @@ class SitecontentSearch extends Sitecontent
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'views' => $this->views,
+            'language' => $this->language,
         ]);
 
-        $query->andFilterWhere(['like', 'language', $this->language])
-            ->andFilterWhere(['like', 'slug', $this->slug])
+        $query->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content]);
 

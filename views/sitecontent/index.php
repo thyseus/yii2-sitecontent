@@ -1,6 +1,7 @@
 <?php
 
 use thyseus\sitecontent\models\Sitecontent;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
@@ -31,6 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'id',
                 'headerOptions' => ['style' => 'width:50px;'],
+            ],
+            [
+                'attribute' => 'parent',
+                'value' => function ($model) { return $model->parentSitecontent ? $model->parentSitecontent->title : null; },
+                'filter' => ArrayHelper::map(Sitecontent::getParentsGrouped(), 'id', 'title'),
             ],
             [
                 'format' => 'raw',
