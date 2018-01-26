@@ -18,9 +18,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('sitecontent', 'Add sitecontent'), ['create'], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('sitecontent', 'Toggle Tree'), ['index', 'tree' => $tree ? 0 : 1], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(
+            Yii::t('sitecontent', 'Add sitecontent'),
+            ['create'],
+            ['class' => 'btn btn-primary']
+        ); ?>
 
+        &nbsp;
+
+        <?= Html::a(
+                Yii::t('sitecontent', $tree ? 'Disable tree view' : 'Enable tree view'),
+                ['index', 'tree' => $tree ? 0 : 1],
+                ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php $grid = $tree ? 'karakum\grid\TreeGridView' : 'karakum\grid\GridView'; ?>
@@ -80,10 +89,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ];
 
-    if ($tree)
+    if ($tree) {
         $widget_options['parentColumnName'] = 'parent';
+    }
 
-    Pjax::begin();
     echo $grid::widget($widget_options);
-    Pjax::end(); ?>
+    ?>
 </div>

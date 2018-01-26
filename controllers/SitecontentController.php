@@ -5,7 +5,6 @@ namespace thyseus\sitecontent\controllers;
 use thyseus\sitecontent\models\Sitecontent;
 use thyseus\sitecontent\models\SitecontentSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -49,9 +48,10 @@ class SitecontentController extends Controller
 
     /**
      * Lists all Sitecontent models.
+     * @var $tree set to true to display an Tree View. Filtering is disabled then, though :-(
      * @return mixed
      */
-    public function actionIndex($tree = true)
+    public function actionIndex($tree = false)
     {
         $searchModel = new SitecontentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -100,20 +100,6 @@ class SitecontentController extends Controller
     }
 
     /**
-     * Check if an redirection is necessary for the given sitecontent. If so, return the route to the correct target.
-     * @param $model model to check against
-     * @param $id id to check against
-     * @param $language language to check against
-     * @return array
-     */
-    protected function redirectionNecessary($model, $id, $language)
-    {
-        if ($model->language != $language && $correct_model = Sitecontent::findOne(['id' => $model->id, 'language' => $language])) {
-            return ['//sitecontent/sitecontent/view', 'id' => $correct_model->slug];
-        }
-    }
-
-    /**
      * Finds the Sitecontent model.
      * May fall back to a not requested language if slug or id is equivalent.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -138,6 +124,20 @@ class SitecontentController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Check if an redirection is necessary for the given sitecontent. If so, return the route to the correct target.
+     * @param $model model to check against
+     * @param $id id to check against
+     * @param $language language to check against
+     * @return array
+     */
+    protected function redirectionNecessary($model, $id, $language)
+    {
+        if ($model->language != $language && $correct_model = Sitecontent::findOne(['id' => $model->id, 'language' => $language])) {
+            return ['//sitecontent/sitecontent/view', 'id' => $correct_model->slug];
         }
     }
 
