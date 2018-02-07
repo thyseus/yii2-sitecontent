@@ -28,4 +28,6 @@ return [
     'Enable tree view' => 'Baumansicht einschalten',
     'Disable tree view' => 'Baumansicht ausschalten',
     'Parent id can not be identical to the sitecontent id' => 'Parent id kann nicht identisch mit sitecontent id sein',
+    'Back to Index' => 'Zurück',
+    'Copy sitecontent' => 'Seiteninhalt kopieren',
 ];

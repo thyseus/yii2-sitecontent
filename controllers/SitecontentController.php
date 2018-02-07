@@ -150,8 +150,6 @@ class SitecontentController extends Controller
     {
         $model = new Sitecontent();
 
-        $model->id = Sitecontent::nextFreeId();
-
         if ($source_id && $source_language) {
             if ($source = Sitecontent::find()->where(['id' => $source_id, 'language' => $source_language])->one()) {
                 $model->attributes = $source->attributes;
@@ -159,6 +157,8 @@ class SitecontentController extends Controller
                 throw new NotFoundHttpException('The source sitecontent could not be found');
             }
         }
+
+        $model->id = Sitecontent::nextFreeId();
 
         $model->views = 0;
         $model->status = 0;

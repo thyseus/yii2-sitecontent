@@ -57,10 +57,11 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-        if(!$this->accessCallback)
-            $this->accessCallback = function() {
+        if (!$this->accessCallback) {
+            $this->accessCallback = function () {
                 return Yii::$app->user->can('admin');
             };
+        }
 
         if (!isset(Yii::$app->get('i18n')->translations['sitecontent*'])) {
             Yii::$app->get('i18n')->translations['sitecontent*'] = [

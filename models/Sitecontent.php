@@ -138,6 +138,7 @@ class Sitecontent extends ActiveRecord
             [['language'], 'string', 'max' => 5],
             [['title', 'slug'], 'string', 'max' => 255],
             ['language', 'unique', 'targetAttribute' => ['id', 'language']],
+            ['language', 'unique', 'targetAttribute' => ['slug', 'language']],
         ];
     }
 

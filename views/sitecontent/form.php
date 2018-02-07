@@ -79,7 +79,18 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         </div>
 
         <div class="form-group">
-            <?= Html::submitButton(Yii::t('sitecontent', 'save'), ['class' => 'btn btn-success']) ?>
+            <?= Html::a(
+                Yii::t('sitecontent', 'Back to Index'),
+                ['index'],
+                ['class' => 'btn btn-default']
+            ); ?>
+            <?= Html::a(
+                    Yii::t('sitecontent', 'Copy sitecontent'),
+                    ['create', 'source_id' => $model->id, 'source_language' => $model->language],
+                    ['class' => 'btn btn-default btn-copy-sitecontent']
+            ); ?>
+            <?= Html::submitButton(Yii::t('sitecontent', 'save'),
+                ['class' => 'btn btn-success pull-right']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>
@@ -87,3 +98,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     </div>
 
 </div>
+
+<?php $this->registerJS(<<<JS
+    $('input, textarea').change(function()
+    {
+        $('.btn-copy-sitecontent').attr('disabled', 'disabled');  
+        $('.btn-copy-sitecontent').addClass('disabled');  
+    });
+JS
+);
