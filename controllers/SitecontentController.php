@@ -81,7 +81,6 @@ class SitecontentController extends Controller
             $this->layout = $layout;
         }
 
-
         $model = $this->findModel($id, $language);
 
         if ($target = $this->redirectionNecessary($model, $id, $language)) {
@@ -146,7 +145,7 @@ class SitecontentController extends Controller
      * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
      */
-    public function actionCreate($source_id = null, $source_language = null)
+    public function actionCreate($source_id = null, $source_language = null, $target_language = null)
     {
         $model = new Sitecontent();
 
@@ -156,9 +155,15 @@ class SitecontentController extends Controller
             } else {
                 throw new NotFoundHttpException('The source sitecontent could not be found');
             }
+
+            if ($target_language) {
+                $model->language = $target_language;
+            }
         }
 
-        $model->id = Sitecontent::nextFreeId();
+        if (!$model->id) {
+            $model->id = Sitecontent::nextFreeId();
+        }
 
         $model->views = 0;
         $model->status = 0;

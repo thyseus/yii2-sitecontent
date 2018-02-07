@@ -11,9 +11,10 @@ use yii\widgets\ActiveForm;
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('sitecontent', 'Sitecontent'), 'url' => ['index']];
-if ($model->status === Sitecontent::STATUS_PUBLIC)
+if ($model->status === Sitecontent::STATUS_PUBLIC) {
     $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->slug, 'language' => $model->language]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+}
+$this->params['breadcrumbs'][] = Yii::t('sitecontent', $model->isNewRecord ? 'Create Sitecontent' : 'Update Sitecontent');
 ?>
 <div class="sitecontent-update">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -84,11 +85,44 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                 ['index'],
                 ['class' => 'btn btn-default']
             ); ?>
-            <?= Html::a(
+
+            <?php if (!$model->isNewRecord) { ?>
+                <?= Html::a(
                     Yii::t('sitecontent', 'Copy sitecontent'),
                     ['create', 'source_id' => $model->id, 'source_language' => $model->language],
                     ['class' => 'btn btn-default btn-copy-sitecontent']
-            ); ?>
+                ); ?>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-select-language" data-toggle = "dropdown">
+                        <?= Yii::t('sitecontent', 'Language'); ?>: <?= $model->language; ?>
+                        <span class = "caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <?php foreach(Sitecontent::getLanguages() as $language) { ?>
+                            <?php if ($language != $model->language) {
+                                if(Sitecontent::find()->where([
+                                    'slug' => $model->slug,
+                                    'language' => $language,
+                                ])->exists()) { ?>
+                                    <li>
+                                        <?= Html::a(
+                                        Yii::t('sitecontent', 'Switch to this page in language ') . $language,
+                                        ['update', 'id' => $model->slug, 'language' => $language]); ?>
+                                    </li>
+                                <?php } else { ?>
+                            <li>
+                                <?= Html::a(
+                                    Yii::t('sitecontent', 'Copy this page in language ') . $language,
+                                    ['create', 'source_id' => $model->id, 'source_language' => $model->language, 'target_language' => $language]); ?>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
+
             <?= Html::submitButton(Yii::t('sitecontent', 'save'),
                 ['class' => 'btn btn-success pull-right']) ?>
         </div>
@@ -104,6 +138,9 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     {
         $('.btn-copy-sitecontent').attr('disabled', 'disabled');  
         $('.btn-copy-sitecontent').addClass('disabled');  
+        
+        $('.btn-select-language').attr('disabled', 'disabled');  
+        $('.btn-select-language').addClass('disabled');  
     });
 JS
 );

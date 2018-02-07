@@ -30,4 +30,7 @@ return [
     'Parent id can not be identical to the sitecontent id' => 'Parent id kann nicht identisch mit sitecontent id sein',
     'Back to Index' => 'Zurück',
     'Copy sitecontent' => 'Seiteninhalt kopieren',
+    'Language' => 'Sprache',
+    'Switch to this page in language ' => 'Wechseln zu Sprache ',
+    'Copy this page in language ' => 'Kopieren in Sprache ',
 ];
