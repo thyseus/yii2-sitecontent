@@ -142,7 +142,8 @@ class Sitecontent extends ActiveRecord
         ];
     }
 
-    public function beforeValidate() {
+    public function beforeValidate()
+    {
         if ($this->id == $this->parent) {
             $this->addError('parent', Yii::t('sitecontent', 'Parent id can not be identical to the sitecontent id'));
         }
@@ -150,12 +151,21 @@ class Sitecontent extends ActiveRecord
         return parent::beforeValidate();
     }
 
-    public function beforeSave($insert) {
+    /**
+     * @param bool $insert
+     * @see http://htmlpurifier.org/phorum/read.php?3,7023
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
         if ($this->isNewRecord && !$this->meta_title) {
             $this->meta_title = substr($this->title, 0, 70); // recommended max length
         }
 
-        $this->content = HtmlPurifier::process($this->content);
+        $this->content = HtmlPurifier::process($this->content, function ($config) {
+            $config->getHTMLDefinition(true)
+                ->addAttribute('a', 'target', 'Text');
+        });
 
         return parent::beforeSave($insert);
     }
